@@ -33,9 +33,30 @@ Playwright recursively scans subfolders, allowing the learning process to be seg
 PlayWrightAutomation/
 ├── config/                  # Framework configurations
 ├── tests/                   # Root test directory (scanned by Playwright)
-│   ├── 01-basics/           # Browser initialization and essential web flows
+│   ├── 01-core_concepts/    # Browser initialization and essential web flows
 │   │   └── UIBasicstest.spec.js
-│   ├── 02-locators/         # (Upcoming) Advanced element location strategies
+│   ├── 02-basic_methods/    # Core locators, interactions, and fundamental assertions
 │   └── 03-advanced/         # (Upcoming) Complex interactions, API testing, and optimization
 ├── package.json
 └── README.md                # Project documentation
+```
+---
+
+## 🚀 Getting Started & Execution
+
+To clone and run this project locally, ensure you have **Node.js** installed on your system. Follow these steps to set up your environment and execute the test suites:
+
+### 1. Installation
+First, install the project dependencies specified in the `package.json` file:
+```bash
+npm install
+```
+### 2. Execution
+Secondly, execute the tests depending of the folder to test :
+```bash
+npx playwright test tests/<your-test-folder>/
+```
+Or indicating the script .js directly with the relative path
+```bash
+npx playwright test tests/<your-test-folder>/script.js
+```
