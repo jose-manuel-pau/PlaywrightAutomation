@@ -21,8 +21,11 @@ test.only('Browser Context Playwright test', async ({browser})=>
     await userName.fill("rahulshettyacademy")
     await signIn.click();
 
+    await expect(cardTitles.first()).toBeVisible();
+
     console.log(await cardTitles.first().textContent());
     console.log(await cardTitles.nth(1).textContent());
+
     const allTitles = await cardTitles.allTextContents();
     console.log(allTitles);
 });

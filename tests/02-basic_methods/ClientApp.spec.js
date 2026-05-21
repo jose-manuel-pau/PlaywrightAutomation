@@ -7,8 +7,9 @@ test.only('Browser Context-Validatin Error login', async ({page})=>
     await page.locator("#userPassword").type("Iamking@000");
     await page.locator("[value='Login']").click();
     // await page.waitForLoadState('networkidle')
-    await page.locator(".card-body b").first().waitFor();
-    const titles = await page.locator(".card-body b").allTextContents();
+    const productTitles = page.locator(".card-body b");
+    await expect(productTitles.first()).toBeVisible();
+    const titles = await productTitles.allTextContents();
     console.log(titles);
 
 });
