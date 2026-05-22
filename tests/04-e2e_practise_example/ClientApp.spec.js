@@ -31,19 +31,6 @@ test.only('@Gen Client App login', async ({page})=>
     await page.locator("text=Checkout").click();
     
     await page.locator("[placeholder*='Country']").pressSequentially("spa",{delay:150});
-    /*const dropdown = page.locator(".ta-results");
-    await expect(dropdown).toBeVisible();
-    const optionsCount = await dropdown.locator("button").count();
-    for(let i =0;i< optionsCount; ++i)
-    {
-        const text = await dropdown.locator("button").nth(i).textContent();
-        if (text === " Spain")
-        {
-            await dropdown.locator("button").nth(i).click();
-            break;
-        }
-    }
-        */
 
     const dropdown = page.locator(".ta-results");
     await expect(dropdown).toBeVisible();
