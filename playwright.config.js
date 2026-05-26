@@ -13,7 +13,9 @@ const config = ({
   reporter: 'html',
   use: {
     browserName: 'chromium',
-    headless: process.env.CI ? true : false
+    headless: process.env.CI ? true : false, 
+    screenshot: 'on',
+    trace: 'retain-on-failure'
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
   },
