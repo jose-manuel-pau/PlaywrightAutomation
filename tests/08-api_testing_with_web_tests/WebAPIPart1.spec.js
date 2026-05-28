@@ -1,100 +1,52 @@
 const { test, expect, request } = require('@playwright/test');
+const { APIUtils } = require('../utils/APIUtils');
 
 const loginPayload = {
-  userEmail: 'anshika@gmail.com',
-  userPassword: 'Iamking@000',
+  userEmail: 'test_practise@gmail.com',
+  userPassword: '12345ABab$',
 };
 
-let apiContext;
-let loginResponse;
-let token;
+const orderPayload = {
+  orders: [
+    {
+      country: 'Spain',
+      productOrderedId: '6960eac0c941646b7a8b3e68',
+    },
+  ],
+};
+
+let response;
 
 test.beforeAll(async () => {
-    apiContext = await request.newContext();
+  const apiContext = await request.newContext();
+  const apiUtils = new APIUtils(apiContext, loginPayload);
 
-    loginResponse = await apiContext.post(
-        'https://rahulshettyacademy.com/api/ecom/auth/login',
-        {
-        data: loginPayload,
-        }
-    );
-
-    expect(loginResponse.ok()).toBeTruthy();
-    const loginResponseJson = await loginResponse.json();
-    token = loginResponseJson.token;
-    console.log(token);
+  response = await apiUtils.createOrder(orderPayload);
+  console.log(response);
 });
-
-test.beforeEach(  ()=>
-{
-
-
-});
-
-// test 1, test2, test 3
-
 
 test.only('Place the order', async ({ page }) => {
+  const productName = 'ZARA COAT 3';
 
-    await page.addInitScript(value=>{
+  await page.addInitScript((token) => {
+    window.localStorage.setItem('token', token);
+  }, response.token);
 
-        window.localStorage.setItem('token',value);
-    },token);
-    const email = "test_practise@gmail.com";
-    const productName = "ZARA COAT 3";
-    await page.goto("https://rahulshettyacademy.com/client");
-    await expect(page.getByText(productName).first()).toBeVisible();
+  await page.goto('https://rahulshettyacademy.com/client');
 
-    await page
-        .getByText(productName)
-        .locator("xpath=ancestor::*[contains(@class,'card-body')]")
-        .getByRole("button", { name: "Add to Cart" })
-        .click();
+  await expect(page.getByText(productName).first()).toBeVisible();
 
-    await page.getByRole("listitem").getByRole("button", { name: "Cart" }).click();
+  await page.getByRole('button', { name: 'Orders' }).click();
+  await expect(page.getByRole('heading', { name: 'Your Orders' })).toBeVisible();
 
-    await page.getByRole("listitem").first().waitFor();
-    await expect(page.getByText(productName)).toBeVisible();
+  const orderRow = page.getByRole('row').filter({ hasText: response.orderId });
 
-    await page.getByRole("button", { name: "Checkout" }).click();
+  await expect(orderRow).toBeVisible();
+  await orderRow.getByRole('button', { name: 'View' }).click();
 
-    await page.getByPlaceholder("Select Country").pressSequentially("spa", { delay: 150 });
+  await expect(page.locator('.col-text')).toHaveText(response.orderId);
+  console.log('\x1b[32m%s\x1b[0m', 'Test passed successfully, the orderId ' +response.orderId+ ' generated in the order is on the order page!! Congratulations!!!');
 
-    await page.getByRole("button", { name: "Spain" }).first().click();
-
-    await page.getByRole("textbox").nth(1).fill("550");
-
-    const nameOnCardField = page.getByText("Name on Card").locator("xpath=ancestor::div[contains(@class,'field')]");
-
-    await nameOnCardField.getByRole("textbox").fill("Jose Manuel");
-
-    const applyCouponField = page.getByText("Apply Coupon").locator("xpath=ancestor::div[contains(@class,'field')]");
-
-    await applyCouponField.getByRole("textbox").fill("rahulshettyacademy");
-    await page.getByRole("button", { name: "Apply Coupon" }).click();
-
-    await expect(page.getByText(/Coupon Applied/i)).toBeVisible();
-
-    await page.getByText("PLACE ORDER").click();
-
-    await expect(page.getByText("Thankyou for the order.")).toBeVisible();
-
-    const orderId = (await page.getByText(/\|.*\|/).textContent())
-        .replaceAll("|", "")
-        .trim();
-
-    console.log(orderId);
-
-    await page.getByRole("button", { name: "Orders" }).click();
-
-    await expect(page.getByRole("heading", { name: "Your Orders" })).toBeVisible();
-
-    const orderRow = page.getByRole("row").filter({ hasText: orderId });
-
-    await expect(orderRow).toBeVisible();
-    await orderRow.getByRole("button", { name: "View" }).click();
-
-    await expect(page.locator(".col-text")).toHaveText(orderId);
 });
 
 test('@Web Client App login', async ({ page }) => {
@@ -132,3 +84,6 @@ test('@Web Client App login', async ({ page }) => {
 
     await expect(page.getByText("Thankyou for the order.")).toBeVisible();
 });
+
+// Verify if the order creator is in the history order list page
+// Precondition -- create order --
