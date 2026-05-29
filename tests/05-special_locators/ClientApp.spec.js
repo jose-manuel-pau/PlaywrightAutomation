@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test.only('@Gen Client App login', async ({ page }) => {
+test('@Gen Client App login', async ({ page }) => {
     const email = "test_practise@gmail.com";
     const productName = "ZARA COAT 3";
 
@@ -18,10 +18,10 @@ test.only('@Gen Client App login', async ({ page }) => {
         .getByRole("button", { name: "Add to Cart" })
         .click();
 
+    await expect(page.getByText("Product Added To Cart")).toBeVisible();
     await page.getByRole("listitem").getByRole("button", { name: "Cart" }).click();
 
-    await page.getByRole("listitem").first().waitFor();
-    await expect(page.getByText(productName)).toBeVisible();
+    await expect(page.locator("h3", { hasText: productName })).toBeVisible();
 
     await page.getByRole("button", { name: "Checkout" }).click();
 
@@ -84,10 +84,10 @@ test('@Web Client App login', async ({ page }) => {
         .getByRole("button", { name: "Add to Cart" })
         .click();
 
+    await expect(page.getByText("Product Added To Cart")).toBeVisible();
     await page.getByRole("listitem").getByRole("button", { name: "Cart" }).click();
 
-    await page.getByRole("listitem").first().waitFor();
-    await expect(page.getByText(productName)).toBeVisible();
+    await expect(page.locator("h3", { hasText: productName })).toBeVisible();
 
     await page.getByRole("button", { name: "Checkout" }).click();
 
