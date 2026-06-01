@@ -45,7 +45,8 @@ test("Screenshoot & Visual comparison", async({page}) =>
 
 });
 // Screenshoot --> store --> Screenshoot
-test.only("Visual", async ({ page }) => {
+test("Visual", async ({ page }) => {
+  test.skip(process.env.CI,"Google Visual testing is flaky in CI")
   await page.goto("https://www.google.com/");
 
   await expect(
