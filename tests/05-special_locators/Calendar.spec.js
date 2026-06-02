@@ -26,7 +26,7 @@ test("Calendar validations",async({page})=>
 
 });
 
-test.only("Calendar validations optimized", async ({ page }) => {
+test("Calendar validations optimized", async ({ page }) => {
     const monthNumber = "6";
     const date = "15";
     const year = "2027";

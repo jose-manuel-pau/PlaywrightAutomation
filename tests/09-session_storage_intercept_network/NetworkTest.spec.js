@@ -25,7 +25,7 @@ test.beforeAll(async () => {
   console.log(response);
 });
 
-test.only('Place the order', async ({ page }) => {
+test('Place the order', async ({ page }) => {
   const productName = 'ZARA COAT 3';
 
   await page.addInitScript((token) => {

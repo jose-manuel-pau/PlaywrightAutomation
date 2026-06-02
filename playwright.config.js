@@ -1,26 +1,33 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+const { defineConfig } = require('@playwright/test');
+
+const isCI = !!process.env.CI;
 
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-const config = ({
+module.exports = defineConfig({
   testDir: './tests',
   timeout: 30 * 1000,
+
   expect: {
     timeout: 5000
   },
-  reporter: 'html',
+
+  forbidOnly: isCI,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 1 : undefined,
+
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }]
+  ],
+
   use: {
     browserName: 'chromium',
-    headless: process.env.CI ? true : false, 
+    headless: isCI,
     screenshot: 'on',
-    trace: 'on'
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-  },
-
-  
+    trace: 'on',
+    video: isCI ? 'retain-on-failure' : 'off'
+  }
 });
-module.exports = config;
-

@@ -1,6 +1,6 @@
 const {test,expect} = require('@playwright/test');
 
-test.only('@Gen Client App login', async ({page})=> 
+test('@Gen Client App login', async ({page})=> 
 {
     const email = "test_practise@gmail.com";
     const productName = "ZARA COAT 3";
