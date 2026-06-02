@@ -15,7 +15,7 @@ const GMAIL_USER = {
 
 test('Gmail user cannot view Yahoo user booking', async ({ page, request }) => {
     const yahooToken = await loginViaApi(request, YAHOO_USER);
-    const eventId = await getFirstEventId(request, yahooToken);
+    const eventId = await getFirstAvailableEventId(request, yahooToken);
 
     const yahooBookingId = await createBooking(request, yahooToken, {
         eventId,
@@ -57,7 +57,7 @@ async function loginViaApi(request, user) {
     return token;
 }
 
-async function getFirstEventId(request, token) {
+async function getFirstAvailableEventId(request, token) {
     const response = await request.get(`${API_URL}/events`, {
         headers: authHeaders(token),
     });
@@ -65,11 +65,14 @@ async function getFirstEventId(request, token) {
     await expectApiResponseOk(response, 'Events request failed');
 
     const responseBody = await response.json();
-    const eventId = responseBody.data[0].id;
 
-    expect(eventId).toBeTruthy();
+    const event = responseBody.data.find(
+        event => Number(event.availableSeats) >= 1
+    );
 
-    return eventId;
+    expect(event, 'No event with available seats was found').toBeTruthy();
+
+    return event.id;
 }
 
 async function createBooking(request, token, bookingPayload) {
