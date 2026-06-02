@@ -15,10 +15,8 @@ const GMAIL_USER = {
 
 test('Gmail user cannot view Yahoo user booking', async ({ page, request }) => {
     const yahooToken = await loginViaApi(request, YAHOO_USER);
-    const eventId = await getFirstAvailableEventId(request, yahooToken);
 
-    const yahooBookingId = await createBooking(request, yahooToken, {
-        eventId,
+    const yahooBookingId = await createBookingForAvailableEvent(request, yahooToken, {
         customerName: 'Yahoo User',
         customerEmail: YAHOO_USER.email,
         customerPhone: '9876543210',
@@ -57,7 +55,7 @@ async function loginViaApi(request, user) {
     return token;
 }
 
-async function getFirstAvailableEventId(request, token) {
+async function getAvailableEvents(request, token, quantity) {
     const response = await request.get(`${API_URL}/events`, {
         headers: authHeaders(token),
     });
@@ -66,29 +64,49 @@ async function getFirstAvailableEventId(request, token) {
 
     const responseBody = await response.json();
 
-    const event = responseBody.data.find(
-        event => Number(event.availableSeats) >= 1
-    );
+    const events = responseBody.data
+        .filter(event => Number(event.availableSeats) >= quantity)
+        .sort((firstEvent, secondEvent) =>
+            Number(secondEvent.availableSeats) - Number(firstEvent.availableSeats)
+        );
 
-    expect(event, 'No event with available seats was found').toBeTruthy();
+    expect(events.length, 'No event with available seats was found').toBeGreaterThan(0);
 
-    return event.id;
+    return events;
 }
 
-async function createBooking(request, token, bookingPayload) {
-    const response = await request.post(`${API_URL}/bookings`, {
-        headers: authHeaders(token),
-        data: bookingPayload,
-    });
+async function createBookingForAvailableEvent(request, token, bookingPayload) {
+    const events = await getAvailableEvents(request, token, bookingPayload.quantity);
+    let lastError;
 
-    await expectApiResponseOk(response, 'Booking request failed');
+    for (const event of events) {
+        const response = await request.post(`${API_URL}/bookings`, {
+            headers: authHeaders(token),
+            data: {
+                ...bookingPayload,
+                eventId: event.id,
+            },
+        });
 
-    const responseBody = await response.json();
-    const bookingId = responseBody.data.id;
+        if (response.ok()) {
+            const responseBody = await response.json();
+            const bookingId = responseBody.data.id;
 
-    expect(bookingId).toBeTruthy();
+            expect(bookingId).toBeTruthy();
 
-    return bookingId;
+            return bookingId;
+        }
+
+        lastError = await response.text();
+
+        if (!lastError.includes('seat(s) available')) {
+            throw new Error(
+                `Booking request failed. Status: ${response.status()}. Body: ${lastError}`
+            );
+        }
+    }
+
+    throw new Error(`Booking request failed for every available event. Last error: ${lastError}`);
 }
 
 async function loginAs(page, user) {
