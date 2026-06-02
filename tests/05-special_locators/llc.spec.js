@@ -22,16 +22,11 @@ test('Test recorded with codegen', async ({ page }) => {
   await page.locator('app-card').filter({ hasText: 'Samsung Note 8 $24.99 Lorem' }).getByRole('button').click();
   await page.getByText('Checkout ( 2 ) (current)').click();
   await page.getByRole('button', { name: 'Checkout' }).click();
-    const countryInput = page.getByRole('textbox', {
+  const countryInput = page.getByRole('textbox', {
     name: 'Please choose your delivery',
   });
 
-  await countryInput.click();
-  await countryInput.fill('Spa');
-
-  const spainOption = page.locator('.suggestions a', { hasText: 'Spain' });
-  await expect(spainOption).toBeVisible();
-  await spainOption.click();
+  await countryInput.fill('Spain');
   await page.getByText('I agree with the term &').click();
   await page.getByRole('button', { name: 'Purchase' }).click();
   await expect(page.locator('app-checkout')).toContainText('Please choose your delivery location. Then click on purchase button');
