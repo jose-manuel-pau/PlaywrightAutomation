@@ -1,8 +1,5 @@
 //Login UI  --> .json
-
-
 //test browser --> .json , cart-,order,orderdetails,orderhistory
-
 const { test, expect } = require('@playwright/test');
 
 const email = "test_practise@gmail.com";
