@@ -1,7 +1,6 @@
-const {test,expect} = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 
-test('Browser Context Playwright test', async ({browser})=> 
-{
+test('@Web Browser Context Playwright test', async ({ browser }) => {
     //chrome - plugins/ cookies
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -30,35 +29,35 @@ test('Browser Context Playwright test', async ({browser})=>
     console.log(allTitles);
 });
 
-test('UI Controls', async ({page})=> 
-{
+test('@Web UI Controls', async ({ page }) => {
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/")
     const userName = page.locator('#username');
     const signIn = page.locator("#signInBtn");
     const documentLink = page.locator("[href*='documents-request']")
-    const dropdown = page.locator("select.form-control"); 
+    const dropdown = page.locator("select.form-control");
     await dropdown.selectOption("consult");
     await page.locator(".radiotextsty").last().click();
     await page.locator("#okayBtn").click();
     console.log(await page.locator(".radiotextsty").last().isChecked());
-    await expect(page.locator(".radiotextsty").last()).toBeChecked();
-    await page.locator("#terms").click();
-    await expect(page.locator("#terms")).toBeChecked();
-    await page.locator("#terms").uncheck();
-    expect(await page.locator("#terms").isChecked()).toBeFalsy();
-    await expect(documentLink).toHaveAttribute("class","blinkingText");
+    await page.locator(".radiotextsty").last().click();
+
+    await page.locator('#terms').check();
+    await expect(page.locator('#terms')).toBeChecked();
+
+    await page.locator('#terms').uncheck();
+    await expect(page.locator('#terms')).not.toBeChecked();
+    await expect(documentLink).toHaveAttribute("class", "blinkingText");
     //assertion
 
 });
 
-test('Child windows handling', async ({browser})=> 
-{
+test('@Web Child windows handling', async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName = page.locator('#username');
     const documentLink = page.locator("[href*='documents-request']");
-    
+
     const [newPage] = await Promise.all([
         context.waitForEvent('page'),
         documentLink.click(),

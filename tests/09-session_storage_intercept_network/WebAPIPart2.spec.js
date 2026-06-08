@@ -78,7 +78,7 @@ test('Place order injecting webContext', async () => {
     await expect(page.locator(".col-text")).toHaveText(orderId);
 });
 
-test('Test case 2', async() =>
+test('@API Test case 2', async() =>
 {
     const email = "";
     const productName = 'ZARA COAT 3';

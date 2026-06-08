@@ -1,8 +1,7 @@
-const {test,expect} = require("@playwright/test");
+const { test, expect } = require("@playwright/test");
 
 
-test("Popup validations",async({page}) =>
-{
+test("@Web Popup validations", async ({ page }) => {
     await page.goto('https://rahulshettyacademy.com/AutomationPractice/');
     // await page.goto('http://google.com');
     // await page.goBack();
@@ -11,14 +10,14 @@ test("Popup validations",async({page}) =>
     await page.locator("#hide-textbox").click();
     await expect(page.locator("#displayed-text")).toBeHidden();
     // await page.pause();
-    page.on('dialog',dialog => dialog.accept());
+    page.on('dialog', dialog => dialog.accept());
     await page.locator("#confirmbtn").click();
     await page.locator("#mousehover").hover();
     const coursesFrame = page.frameLocator('#courses-iframe');
 
-    const lifetimeAccessLink = coursesFrame.locator(
-    "a[href*='lifetime-access']:visible"
-    );
+    const lifetimeAccessLink = coursesFrame.getByRole('link', {
+        name: /All Access plan/i
+    });
 
     await expect(lifetimeAccessLink).toBeVisible();
     await lifetimeAccessLink.click();

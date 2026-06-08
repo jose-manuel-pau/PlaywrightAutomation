@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-test('@Gen Client App login', async ({ page }) => {
+test('@Web Client App login', async ({ page }) => {
     const email = "test_practise@gmail.com";
     const productName = "ZARA COAT 3";
 
@@ -12,16 +12,36 @@ test('@Gen Client App login', async ({ page }) => {
 
     await expect(page.getByText(productName).first()).toBeVisible();
 
-    await page
-        .getByText(productName)
-        .locator("xpath=ancestor::*[contains(@class,'card-body')]")
-        .getByRole("button", { name: "Add to Cart" })
-        .click();
+    const productCard = page.locator('.card-body').filter({ hasText: productName });
 
-    await expect(page.getByText("Product Added To Cart")).toBeVisible();
-    await page.getByRole("listitem").getByRole("button", { name: "Cart" }).click();
+    const addToCartResponsePromise = page.waitForResponse(response =>
+        response.url().includes('/api/ecom/user/add-to-cart') &&
+        response.request().method() === 'POST'
+    );
 
-    await expect(page.locator("h3", { hasText: productName })).toBeVisible();
+    await productCard.getByRole('button', { name: /Add To Cart/i }).click();
+
+    const addToCartResponse = await addToCartResponsePromise;
+    expect(addToCartResponse.ok()).toBeTruthy();
+
+    const addToCartBody = await addToCartResponse.json();
+    expect(JSON.stringify(addToCartBody)).toContain("Product Added To Cart");
+
+    await expect(page.locator("[routerLink*='cart']")).toContainText("1");
+
+    const cartResponsePromise = page.waitForResponse(response =>
+        response.url().includes('/api/ecom/user/get-cart-products') &&
+        response.ok()
+    );
+
+    await page.locator("[routerLink*='cart']").click();
+
+    const cartResponse = await cartResponsePromise;
+    const cartBody = await cartResponse.json();
+
+    expect(JSON.stringify(cartBody)).toContain(productName);
+
+    await expect(page.getByText(productName)).toBeVisible();
 
     await page.getByRole("button", { name: "Checkout" }).click();
 
@@ -64,7 +84,7 @@ test('@Gen Client App login', async ({ page }) => {
     await expect(page.locator(".col-text")).toHaveText(orderId);
 });
 
-test('@Web Client App login', async ({ page }) => {
+test('@Web Client App login 2', async ({ page }) => {
     const email = "anshika@gmail.com";
     const productName = "ZARA COAT 3";
 

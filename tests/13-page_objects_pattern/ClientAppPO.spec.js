@@ -3,6 +3,8 @@ const {POManager} = require('../../pageobjects/POManager');
 const { orderTestData } = require('../../utils/placeorderTestData'); 
 const {customtest} = require('../../utils/test-base');
 
+test.describe.configure({mode:'serial'});
+
 for (const testData of orderTestData) {
 
 test(`@Gen Client App login for ${testData.productName}`, async ({ page }) => {  

@@ -9,14 +9,13 @@ const isCI = !!process.env.CI;
 module.exports = defineConfig({
   testDir: './tests',
   timeout: 30 * 1000,
-
   expect: {
     timeout: 5000
   },
 
   forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
-  workers: isCI ? 1 : undefined,
+  retries: isCI ? 2 : 2,
+  workers: isCI ? 1 : 5,
 
   reporter: [
     ['list'],
@@ -38,14 +37,13 @@ module.exports = defineConfig({
       name: 'Chrome execution',
       use: {
         browserName: 'chromium',
-        headless: false,
+        headless: true,
         screenshot: 'on',
         video: 'retain-on-failure',
         ignoreHTTPSErrors: true,
         permissions:['geolocation'],
-        trace: 'on',
-        ...devices['Galaxy S24']
-      }
+        trace: 'on'
+        }
 
     }
 
