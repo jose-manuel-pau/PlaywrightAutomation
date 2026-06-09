@@ -1,0 +1,11 @@
+--2026-06-08 13:37:57--  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+Resolving pkg.jenkins.io (pkg.jenkins.io)... 151.101.66.133, 151.101.194.133, 151.101.130.133, ...
+Connecting to pkg.jenkins.io (pkg.jenkins.io)|151.101.66.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3175 (3.1K) [application/octet-stream]
+Saving to: ‘STDOUT’
+
+-                                                 0%[                                                                                                       ]       0  --.-KB/s               -                                               100%[======================================================================================================>]   3.10K  --.-KB/s    in 0s      
+
+2026-06-08 13:37:57 (48.8 MB/s) - written to stdout [3175/3175]
+
