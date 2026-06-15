@@ -20,7 +20,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.0",
+    "@types/node": "^25.9.3",
     "allure-commandline": "^2.42.1",
     "allure-playwright": "^3.9.0",
     "typescript": "^6.0.3"

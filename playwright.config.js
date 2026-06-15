@@ -1,3 +1,4 @@
+/// <reference types="node" />
 // @ts-check
 const { defineConfig } = require('@playwright/test');
 
