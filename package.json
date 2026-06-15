@@ -12,7 +12,9 @@
     "test:APITests": "npx playwright test --grep @API",
     "test:FirefoxNewConfig": "npx playwright test --config playwright.config1.js --project='Firefox execution'",
     "allure:generate": "allure generate ./allure-results --clean",
-    "allure:open": "allure open ./allure-report --host 0.0.0.0 --port 9000"
+    "allure:open": "allure open ./allure-report --host 0.0.0.0 --port 9000",
+    "CucumberRegression": "npx cucumber-js --tags '@Regression' --retry 1 --exit --format html:cucumber-report.html",
+    "CucumberValidation": "npx cucumber-js --tags '@Validation' --retry 1 --exit --format html:cucumber-report.html"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,7 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@cucumber/cucumber": "^13.0.0",
     "exceljs": "^4.4.0"
   }
 }
