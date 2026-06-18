@@ -28,6 +28,16 @@ test('Test recorded with codegen', async ({ page }) => {
 
   await countryInput.fill('Spain');
   await page.getByText('I agree with the term &').click();
+
+  const modalOverlay = page.locator('.overlay.nsm-overlay-open');
+  const closeModalButton = page.getByRole('button', { name: 'Close' }).first();
+
+  if (await closeModalButton.isVisible({ timeout: 2000 }).catch(() => false)) {
+    await closeModalButton.click();
+  }
+
+  await expect(modalOverlay).toBeHidden();
+
   await page.getByRole('button', { name: 'Purchase' }).click();
   await expect(page.locator('app-checkout')).toContainText('Please choose your delivery location. Then click on purchase button');
   await expect(page.getByText('× Success! Thank you! Your')).toBeVisible();
