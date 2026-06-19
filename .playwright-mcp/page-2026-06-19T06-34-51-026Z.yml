@@ -1,0 +1,98 @@
+- generic [ref=e2]:
+  - navigation [ref=e5]:
+    - link "ProtoCommerce" [ref=e6] [cursor=pointer]:
+      - /url: "#"
+    - list [ref=e7]:
+      - listitem [ref=e8]:
+        - link "Home" [ref=e9] [cursor=pointer]:
+          - /url: /angularpractice
+      - listitem [ref=e10]:
+        - link "Shop" [ref=e11] [cursor=pointer]:
+          - /url: /angularpractice/shop
+  - generic [ref=e12]:
+    - navigation [ref=e13]:
+      - generic [ref=e14]:
+        - link "ProtoCommerce Home" [ref=e15] [cursor=pointer]:
+          - /url: "#"
+        - button "Toggle navigation" [ref=e16] [cursor=pointer]
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - heading "Shop Name" [level=1] [ref=e21]
+        - generic [ref=e22]:
+          - link "Category 1" [ref=e23] [cursor=pointer]:
+            - /url: "#"
+          - link "Category 2" [ref=e24] [cursor=pointer]:
+            - /url: "#"
+          - link "Category 3" [ref=e25] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - list [ref=e28]:
+            - listitem [ref=e29]
+            - listitem [ref=e30]
+            - listitem [ref=e31]
+          - listbox [ref=e32]:
+            - img "Third slide" [ref=e34]
+          - button "Previous" [ref=e35] [cursor=pointer]:
+            - generic [ref=e37]: Previous
+          - button "Next" [ref=e38] [cursor=pointer]:
+            - generic [ref=e40]: Next
+        - generic [ref=e41]:
+          - generic [ref=e43]:
+            - link [ref=e44] [cursor=pointer]:
+              - /url: "#"
+            - generic [ref=e45]:
+              - heading "iphone X" [level=4] [ref=e46]:
+                - link "iphone X" [ref=e47] [cursor=pointer]:
+                  - /url: "#"
+              - heading "$24.99" [level=5] [ref=e48]
+              - paragraph [ref=e49]: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.
+            - generic [ref=e50]:
+              - button "Add " [ref=e51] [cursor=pointer]:
+                - text: Add
+                - generic [ref=e52]: 
+              - text: ★ ★ ★ ★ ☆
+          - generic [ref=e54]:
+            - link [ref=e55] [cursor=pointer]:
+              - /url: "#"
+            - generic [ref=e56]:
+              - heading "Samsung Note 8" [level=4] [ref=e57]:
+                - link "Samsung Note 8" [ref=e58] [cursor=pointer]:
+                  - /url: "#"
+              - heading "$24.99" [level=5] [ref=e59]
+              - paragraph [ref=e60]: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.
+            - generic [ref=e61]:
+              - button "Add " [ref=e62] [cursor=pointer]:
+                - text: Add
+                - generic [ref=e63]: 
+              - text: ★ ★ ★ ★ ☆
+          - generic [ref=e65]:
+            - link [ref=e66] [cursor=pointer]:
+              - /url: "#"
+            - generic [ref=e67]:
+              - heading "Nokia Edge" [level=4] [ref=e68]:
+                - link "Nokia Edge" [ref=e69] [cursor=pointer]:
+                  - /url: "#"
+              - heading "$24.99" [level=5] [ref=e70]
+              - paragraph [ref=e71]: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.
+            - generic [ref=e72]:
+              - button "Add " [ref=e73] [cursor=pointer]:
+                - text: Add
+                - generic [ref=e74]: 
+              - text: ★ ★ ★ ★ ☆
+          - generic [ref=e76]:
+            - link [ref=e77] [cursor=pointer]:
+              - /url: "#"
+            - generic [ref=e78]:
+              - heading "Blackberry" [level=4] [ref=e79]:
+                - link "Blackberry" [ref=e80] [cursor=pointer]:
+                  - /url: "#"
+              - heading "$24.99" [level=5] [ref=e81]
+              - paragraph [ref=e82]: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.
+            - generic [ref=e83]:
+              - button "Add " [ref=e84] [cursor=pointer]:
+                - text: Add
+                - generic [ref=e85]: 
+              - text: ★ ★ ★ ★ ☆
+    - contentinfo [ref=e86]:
+      - paragraph [ref=e88]: Copyright © ProtoCommerce 2018
